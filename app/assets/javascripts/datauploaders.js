@@ -1,27 +1,3 @@
-//use for file upload action , only allow csv format
-$('#file').change(function(){
-    //debugger;
-	var fileType = 'comma-separated-values,vnd.ms-excel,csv';
-	var isCorrectType = false;
-    var chosen = this.files[0];
-    
-	if ( fileType!=""){
-        var type = (chosen.type).split("/")[1];
-        fileTypeArr = fileType.split(",");
-        var i=0;
-        for(i=0; i<fileTypeArr.length;i++){
-            if (type == fileTypeArr[i]){
-                isCorrectType = true;
-                break;
-            }
-        }
-        if(!isCorrectType){
-            alertify.alert("File format supported is only csv");
-            $('#file').val("");
-        }
-    }
-});
-
 $(function(){
     $('.custom_table').dataTable();   
 });
@@ -112,12 +88,58 @@ $(document).ready(function () {
     	dataType: 'script',
     	dropZone: $('#dropzone'),
     	add: function (e, data) {
-     			types = /(\.|\/)(comma-separated-values|vnd.ms-excel|csv)$/i;
-      		file = data.files[0];
-      		if (types.test(file.type) || types.test(file.name)) {
-        			data.submit();
-      		}
-      		else { alert(file.name + " must be csv"); }
+	     	types = /(\.|\/)(comma-separated-values|vnd.ms-excel|csv)$/i;
+	  		file = data.files[0];
+	  		if (types.test(file.type) || types.test(file.name)) {
+		          $.ajax({
+		            type: 'GET',
+		            url: '/datauploaders/checkfileuploaded',
+		            data: { file_name: file.name },
+		            success: function(result) {
+		                if(result[0].is_file_exits){
+		                  selected_file = '';  
+		                  alertify.set({ labels: {
+		                    ok     : "Overide!!!",
+		                    cancel : "Create New!!!"
+		                  }, buttonReverse: true, buttonFocus: "cancel" });
+		                  // button labels will be "Accept" and "Deny"
+		                  alertify.confirm("CSV with same file name already exist. Do you want to overide the existing or upload a new file with the same name.", function (e, str) {
+		                    if (e) {
+		                        var body_str = $('table#uploadedSchema tbody');
+		                        body_str.empty();
+		                        for(var i=0; i<(result[0].matching_record).length; i++){
+		                          var row_data = (result[0].matching_record)[i];          
+		                          body_str.append('<tr><td>'+ row_data.file_name + '</td><td>'+ row_data.table_name + '</td><td>'
+		                            + row_data.created_on + '</td><td><button type="button" class="btn-link selected-file" value="'+ row_data.table_name +'" onclick="get">Select</button></td></tr>');
+		                        }
+		                        
+		                        $('button.selected-file').on('click', function(){
+		                          $('#uploadForm input[name="selected_file_name"]').remove();
+		                          $('#possibleMatch-model-popup').modal('hide'); 
+		                          var input = $("<input>").attr("type", "hidden").attr("name", "selected_file_name").val(this.value);
+		                          $('#uploadForm').append($(input));
+		                          data.submit(); 
+		                        });
+		
+		                        $('#possibleMatch-model-popup').modal('show');        
+		                        alertify.error("You chose to overwrite the existing file");
+		                    } else {
+		                        $('#uploadForm input[name="selected_file_name"]').remove();
+		                        $('#possibleMatch-model-popup').modal('hide');                
+		                        alertify.success("You chose to upload a new file with the same name");
+		                        data.submit(); 
+		                    }                  
+		                  });
+		                }else{
+							data.submit();
+						}
+		            }
+		          }); 		
+	  		}
+	  		else {
+	  			alertify.alert("File format supported is only csv");
+          		$('#file').val(""); 
+	  		}
     	}
   });
  
@@ -164,4 +186,36 @@ $(document).ready(function () {
       }, 100);
     });		
 });
+
+function create_duplicate_file_modal(data){
+  selected_file = '';  
+  alertify.set({ labels: {
+    ok     : "Overide!!!",
+    cancel : "Create New!!!"
+  }, buttonReverse: true, buttonFocus: "cancel" });
+  // button labels will be "Accept" and "Deny"
+  alertify.confirm("CSV with same file name already exist. Do you want to overide the existing or upload a new file with the same name.", function (e, str) {
+    if (e) {
+        var body_str = $('table#uploadedSchema tbody');
+        body_str.empty();
+        for(var i=0; i<(data[0].matching_record).length; i++){
+          var row_data = (data[0].matching_record)[i];          
+          body_str.append('<tr><td>'+ row_data.file_name + '</td><td>'+ row_data.table_name + '</td><td>'
+            + row_data.created_on + '</td><td><button type="button" class="btn-link selected-file" value="'+ row_data.table_name +'" onclick="get">Select</button></td></tr>');
+        }
+        var btn = $('button.selected-file').on('click', function(){
+          $('#possibleMatch-model-popup').modal('hide'); 
+          alert(this.value);
+          return this.value;
+        });
+        $('#possibleMatch-model-popup').modal('show');        
+        alertify.error("You chose to overwrite the existing file");
+        return selected_file;
+    } else {
+        $('#possibleMatch-model-popup').modal('hide');                
+        alertify.success("You chose to upload a new file with the same name");
+        return selected_file;
+    }
+  });  
+}
 

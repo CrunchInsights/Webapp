@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   resources :datauploaders, :controller => 'data_uploaders', only: [:file_upload, :import, :changetablecolumndetail,
                                                                     :showuploadedschema, :uploadedfile, :uploadfilerecord,
                                                                     :columnexcludeinclude] do
@@ -16,6 +18,9 @@ Rails.application.routes.draw do
       delete :deleteuserfilemappingrecord, :action=>'delete_user_file_mapping_record'
       post :uploadfilecolumnsforrecord, :action=>'upload_file_columns_for_record'
       get :showerrorrecord, :action => 'show_error_record'
+      get :restartinsertion, :action => 'restart_insertion'
+      get :checkfileuploaded, :action => 'check_file_uploaded'
+      delete :deletecompletedatasource, :action => 'delete_complete_data_source'
     end
   end
 

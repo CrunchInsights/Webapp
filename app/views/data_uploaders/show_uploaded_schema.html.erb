@@ -30,7 +30,13 @@
                 </td>
                 <td is_editable ="yes">
                   <div is_default ="yes">
-                    <%if schema[:Type] == "numeric" then %>decimal
+                    <%if schema[:Type] == "numeric" then %>
+                      decimal
+                      <%if schema[:money_symbol] != '' then %>
+                        (Money Format - <%= schema[:money_symbol]%>)
+                      <%elsif schema[:is_percentage] == true then %>
+                        (Percentage/Rate Value)
+                      <% end %>
                     <%elsif schema[:Type] == "timestamp" then %>datetime
                     <%elsif schema[:Type] == "bool" then %>boolean
                     <%elsif schema[:Type].include?'int' then %>integer
@@ -65,8 +71,8 @@
   </tbody>
 </table>
 <div id="div_loading_window" class="modal fade in" style="width: 100% !Important; overflow-y: hidden; height: 100% !Important;">
-  <%= image_tag("ajax-loader.gif", :class => "modal-dialog") %>
-  <div class="modal-body">
+  <%= image_tag("ajax-loader.gif", :class => "modal-dialog", :style=>"margin: auto  !important; left: 45%  !important; top: 45%  !important; width: auto !important;") %>
+  <div class="modal-body" style="color: #FF1919 !important; font-size: 20px !important; font-weight: bold !important; left: 35% !important; top: 45% !important; width: auto !important;">
     <p>Please wait while analysis is in progress!!!!!</p>
   </div>
 </div>
@@ -89,7 +95,13 @@
                       <tr>
                         <td><%= schema[:Field] %></td>
                         <td>
-                          <%if schema[:Type] == "numeric" then %>decimal
+                          <%if schema[:Type] == "numeric" then %>
+                            decimal
+                            <%if schema[:money_symbol] != '' then %>
+                              (Money Format - <%= schema[:money_symbol]%>)
+                            <%elsif schema[:is_percentage] == true then %>
+                              (Percentage/Rate Value)
+                            <% end %>
                           <%elsif schema[:Type] == "timestamp" then %>datetime
                           <%elsif schema[:Type] == "bool" then %>boolean
                           <%elsif schema[:Type].include?'int' then %>integer
