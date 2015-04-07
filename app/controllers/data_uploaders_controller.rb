@@ -675,7 +675,7 @@ class DataUploadersController < ApplicationController
           columns.each_with_index do |column_name, columns_index|
             columns_datatype_array.append({
                                             columns_index: columns_index,columns_name: column_name, total_counts: 0, 
-                                            nullable_counts:0,integer: 0,string: 0,boolean: 0,datetime: 0,time: 0,decimal: 0,
+                                            nullable_counts:0, integer: 0, string: 0,boolean: 0,datetime: 0,time: 0,decimal: 0,
                                             datetime_basic_info: { mdy_date_count: 0 , dmy_date_count: 0 ,
                                                                   ymd_date_count: 0 , ydm_date_count: 0},
                                             money_percentage_basic_info:[{symbol:'%', count: 0}]
