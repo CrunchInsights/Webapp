@@ -11,52 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150331085130) do
+ActiveRecord::Schema.define(version: 20150407094444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "11425031289549s", id: false, force: true do |t|
-    t.string  "name",          limit: 7,                         null: false
-    t.string  "manager",       limit: 7,                         null: false
-    t.string  "status",        limit: 6,                         null: false
-    t.integer "terms",                                           null: false
-    t.decimal "cost",                    precision: 3, scale: 1, null: false
-    t.boolean "bool1",                                           null: false
-    t.boolean "bool2",                                           null: false
-    t.boolean "bool3",                                           null: false
-    t.decimal "averageprice",            precision: 4, scale: 2, null: false
-    t.time    "datetimevalue",                                   null: false
-    t.time    "percentvalue",                                    null: false
-  end
-
-  create_table "11425032243289s", id: false, force: true do |t|
-    t.string  "name",          limit: 7,                         null: false
-    t.string  "manager",       limit: 7,                         null: false
-    t.string  "status",        limit: 6,                         null: false
-    t.integer "terms",                                           null: false
-    t.decimal "cost",                    precision: 3, scale: 1, null: false
-    t.boolean "bool1",                                           null: false
-    t.boolean "bool2",                                           null: false
-    t.boolean "bool3",                                           null: false
-    t.decimal "averageprice",            precision: 4, scale: 2, null: false
-    t.time    "datetimevalue",                                   null: false
-    t.time    "percentvalue",                                    null: false
-  end
-
-  create_table "11425032531208s", id: false, force: true do |t|
-    t.string   "name",          limit: 7,                         null: false
-    t.string   "manager",       limit: 7,                         null: false
-    t.string   "status",        limit: 6,                         null: false
-    t.integer  "terms",                                           null: false
-    t.decimal  "cost",                    precision: 3, scale: 1, null: false
-    t.boolean  "bool1",                                           null: false
-    t.boolean  "bool2",                                           null: false
-    t.boolean  "bool3",                                           null: false
-    t.decimal  "averageprice",            precision: 4, scale: 2, null: false
-    t.datetime "datetimevalue",                                   null: false
-    t.time     "percentvalue",                                    null: false
-  end
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -98,10 +56,6 @@ ActiveRecord::Schema.define(version: 20150331085130) do
     t.datetime "updated_at"
   end
 
-  create_table "month_insert_demo", id: false, force: true do |t|
-    t.datetime "time_type"
-  end
-
   create_table "table_error_records", force: true do |t|
     t.string   "table_name"
     t.integer  "row_id"
@@ -109,10 +63,6 @@ ActiveRecord::Schema.define(version: 20150331085130) do
     t.text     "error_record"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "time_insert_demo", id: false, force: true do |t|
-    t.time "time_type"
   end
 
   create_table "user_file_mappings", force: true do |t|
@@ -169,6 +119,7 @@ ActiveRecord::Schema.define(version: 20150331085130) do
     t.datetime "locked_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "admin"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

@@ -11,6 +11,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
+gem 'sass-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 gem 'bootstrap-sass', '3.2.0.0'
@@ -26,7 +27,8 @@ gem 'remotipart', '~> 1.2'
 #gem 'compass'
 gem 'jquery-fileupload-rails', github: 'Springest/jquery-fileupload-rails'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw]
-gem 'activeadmin',github: 'gregbell/active_admin'
+gem 'activeadmin', github: 'gregbell/active_admin'
+
 group :development do 
   gem 'spring' # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'quiet_assets'

@@ -24,4 +24,5 @@ class ApplicationController < ActionController::Base
   def initalize_breadcrumb(breadcrumb_name, breadcrumb_path)
     add_breadcrumb breadcrumb_name, breadcrumb_path, :title => breadcrumb_name
   end
+
 end

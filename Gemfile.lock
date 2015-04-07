@@ -329,6 +329,7 @@ DEPENDENCIES
   rails (= 4.1.9)
   rails_12factor
   remotipart (~> 1.2)
+  sass-rails
   sdoc (~> 0.4.0)
   smarter_csv
   spring
